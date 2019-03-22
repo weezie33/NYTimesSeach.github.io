@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>NYT Project Sandbox</title>
+</head>
+
+<body>
+    <button data-animal="cat">Search</button>
+    <!-- <button data-animal="dog">woof</button> -->
+    <!-- <button data-animal="bird">chirp</button> -->
+    <div id="article-here">
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("button").on("click", function () {
+
+            var MAX_RESULTS_PER_PAGE = 10;
+            var search_term = "election";
+            var limit = 5;
+            var api_key = "A6PSEG0TLT7Kd5i6Tr7efbuOsAAIcqDY";
+            var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + search_term + "&api-key=" + api_key;
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (nytresp) {
+
+                console.log(nytresp);
+
+                //var tmp = JSON.stringify(nytresp);
+                //$("#article-here").html("<p>" + tmp + "</p>");
+
+                console.log(nytresp.response.docs);
+
+                for (var i = 0; i < nytresp.response.docs.length; i++) {
+                    var article = nytresp.response.docs[i];
+                    var headline = article.headline.main;
+                    console.log(headline);
+
+                    var newArticle = $("<div>");
+                    newArticle.html("<h2>" + headline + "</h2>");
+
+                    $("#article-here").append(newArticle);
+
+                }
+
+
+                
+
+            })
+        });
+    </script>
+</body>
+
+</html>
